@@ -1,0 +1,189 @@
+% preamble for our lecture notes (and probably also exercises)
+
+% add whatever you need, and I'll add what I need, and we can deal with clashes as they arise
+% style decisions: I (Arun) am OK with pretty much whatever
+
+% packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage[usenames, dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\usepackage{xparse} % in order to define shortexact, below
+\usepackage{etoolbox} % for quickly defining multiple things, below
+\usepackage{mathrsfs}
+\usepackage[all]{xy}
+\usepackage[backref=page]{hyperref}
+\usepackage[all]{hypcap}
+\usepackage[capitalize, noabbrev]{cleveref}
+
+% TODO: tikz and Adams macros, and spectralsequences
+
+% Forces all XY entries to be typeset with displaymath
+\everyentry={\displaystyle}
+%
+% Short exact sequences: write
+% \shortexact[f][g]{A}{B}{C}, for:
+%
+% f g
+% 0 -> A -> B -> C -> 0,
+% (or 1 -> A -> B -> C -> 1 with \shortexact*)
+% Warning! if you just want
+%   0 -> A -> B -> C -> 0
+% with no punctuation, you must invoke this command as
+%   \shortexact{A}{B}{C}{}
+% or else it will gobble the next character.
+\DeclareDocumentCommand{\shortexact}{s O{} O{} mmmm}{
+\IfBooleanTF{#1}{ % if star
+ \xymatrix{
+  1\ar[r] & #4\ar[r]^-{#2} & #5\ar[r]^-{#3} & #6\ar[r] & 1#7
+ }
+}{ % no star
+ \xymatrix{
+  0\ar[r] & #4\ar[r]^-{#2} & #5\ar[r]^-{#3} & #6\ar[r] & 0#7
+ }
+}}
+% exactly the same, but for 0 -> A -> B -> C
+% same caveat about ending w/o punctuation applies to both of these
+\DeclareDocumentCommand{\leftexact}{O{} O{} mmmm}{
+\xymatrix{
+ 0\ar[r] & #3\ar[r]^-{#1} & #4\ar[r]^-{#2} & #5 #6
+}}
+% ... and the same, for A -> B -> C -> 0
+\DeclareDocumentCommand{\rightexact}{O{} O{} mmmm}{
+\xymatrix{
+ {#3}\ar[r]^-{#1} & #4\ar[r]^-{#2} & #5\ar[r] & 0#6
+}}
+
+% An xymatrix environment wrapped in gathered to ensure its equation number is vertically centered
+\newcommand{\gathxy}[2][]{%
+\begin{gathered}
+	\xymatrix#1{#2}
+\end{gathered}
+}
+
+% TODO: I (Arun) am testing a way to define lots of letterlike macros quickly, based on
+% https://tex.stackexchange.com/questions/30349
+% This should quickly define \C for \mathbb C, \R for mathbb R, etc., but if it doesn't work, let me know
+\def\do#1{\csdef{#1}{\mathbb{#1}}}
+\docsvlist{Q,R,T,F,Z,C,N,RP,CP,HP}
+% a few must be done manually, I think
+\renewcommand{\H}{\mathbb H}
+\renewcommand{\S}{\mathbb S} % maybe we want section symbols, in which case get rid of this
+\renewcommand{\P}{\mathbb P}
+
+% now \cA for \mathcal A, \cB for \mathcal B, etc.
+\def\do#1{\csdef{c#1}{\mathcal{#1}}}
+\docsvlist{A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z}
+% and \sA for \mathscr A, \sB for \mathscr B, etc.
+\def\do#1{\csdef{s#1}{\mathscr{#1}}}
+\docsvlist{A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z}
+% mathfrak
+% these are just accessed via \so, \su, ...
+\def\do#1{\csdef{#1}{\mathfrak{#1}}}
+\docsvlist{gl,sl,sp,so,su,spin}
+% these are accessed via \fg, \ft, etc., since they're just one letter each
+\def\do#1{\csdef{f#1}{\mathfrak{#1}}}
+\docsvlist{g,t,b,n,u,o,U}
+% mathrm -- mostly Lie groups
+\def\do#1{\csdef{#1}{\mathrm{#1}}}
+\docsvlist{GL,SL,Sp,SO,U,SU,Spin,Pin,PGL,PSL,Sq}
+% this has to be done manually, I think
+\renewcommand{\O}{\mathrm O}
+
+% mathit -- some cohomology theories
+\def\do#1{\csdef{#1}{\mathit{#1}}}
+\docsvlist{KO,ko,KU,ku,TMF,Tmf,tmf,BP}
+
+
+\numberwithin{equation}{section}
+
+% amsthm stuff
+\newtheorem{thm}[equation]{Theorem}
+\newtheorem{lem}[equation]{Lemma}
+\newtheorem{cor}[equation]{Corollary}
+\newtheorem{prop}[equation]{Proposition}
+\theoremstyle{definition}
+\newtheorem{ex}[equation]{Exercise}
+\newtheorem{examp}[equation]{Example}
+\newtheorem{defn}[equation]{Definition}
+\newtheorem{claim}[equation]{Claim}
+\newtheorem{conj}[equation]{Conjecture}
+\newtheorem{ques}[equation]{Question}
+\theoremstyle{remark}
+\newtheorem{rem}[equation]{Remark}
+\newtheorem*{fct}{Fact}
+\newtheorem*{note}{Note}
+
+% Crefnames, allowing me to reference multiple theorems at once
+\crefname{thm}{Theorem}{Theorems}
+\crefname{lem}{Lemma}{Lemmas}
+\crefname{cor}{Corollary}{Corollaries}
+\crefname{prop}{Proposition}{Propositions}
+\crefname{ex}{Exercise}{Exercises}
+\crefname{examp}{Example}{Examples}
+\crefname{defn}{Definition}{Definitions}
+\crefname{claim}{Claim}{Claims}
+\crefname{conj}{Conjecture}{Conjectures}
+\crefname{ques}{Question}{Questions}
+\crefname{rem}{Remark}{Remarks}
+\crefname{fct}{Fact}{Facts}
+\crefname{note}{Note}{Notes}
+
+\newcommand{\term}{\emph} % e.g. "The \term{trace} is defined to be..."
+
+% other shortcuts I use for live-TeXing
+\newcommand{\vp}{\varphi}
+\newcommand{\e}{\varepsilon}
+\newcommand{\inj}{\hookrightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\pt}{\mathrm{pt}}
+\newcommand{\many}[2][\dotsb]{#2 #1 #2} % optional argument for kind of dots
+\newcommand{\bl}{\text{--}}
+\newcommand{\TFAE}{The following are equivalent}
+\newcommand{\TODO}{\textcolor{red}{TODO}}
+
+% This allows \paren{...} to replace \left(...\right) (and similarly for \bkt). For
+% \ang, \set, \abs, and \norm, I find myself using autoexpansion less often.
+% This code, along with some other shortcuts, is duplicated in my problem set template;
+% perhaps I should have them include a common file?
+\DeclarePairedDelimiter\paren{(}{)}
+\DeclarePairedDelimiter\ang{\langle}{\rangle}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\DeclarePairedDelimiter\bkt{[}{]}
+\DeclarePairedDelimiter\set{\{}{\}}
+\DeclarePairedDelimiter\bra{\langle}{\rvert}
+\DeclarePairedDelimiter\ket{\lvert}{\rangle}
+% Swap paren* and paren, etc., so that the normal version resizes by default.
+% Meanwhile, one can use \paren*[\Big]{...} to customize the size easily.
+\makeatletter
+	\let\oldparen\paren
+	\def\paren{\@ifstar{\oldparen}{\oldparen*}}
+	\let\oldbkt\bkt
+	\def\bkt{\@ifstar{\oldbkt}{\oldbkt*}}
+\makeatother
+
+% simplifying use of \DeclareMathOperator
+\newcommand{\newoperator}[1]{\expandafter\DeclareMathOperator\csname #1\endcsname{\operatorname{#1}}}
+\def\do#1{\newoperator{#1}}
+\docsvlist{Aut,coker,Cotor,End,Ext,Hom,rank,sign,Tor,tr,Spec,Proj,QCoh}
+\renewcommand{\Im}{\operatorname{Im}}
+\DeclareMathOperator*{\colim}{colim}
+\DeclareMathOperator*{\holim}{holim}
+\DeclareMathOperator*{\hocolim}{hocolim}
+
+\usepackage{microtype}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={green!50!black},
+    urlcolor={blue!80!black}
+}
