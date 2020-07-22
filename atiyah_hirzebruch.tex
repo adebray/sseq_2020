@@ -1,0 +1,189 @@
+\TODO: this is taken directly from my notes when I gave this lecture three years ago, and will need to be modified.
+I'll indicate what needs to be changed where it needs to be changed.
+
+Today, I'm going to talk about the Atiyah-Hirzebruch spectral sequence. This spectral sequence computes generalized
+(co)homology of a space or spectrum, with input data its ordinary homology.
+
+Let $D$ be a spectrum and $X$ be a CW complex. The \term{homological Atiyah-Hirzebruch spectral sequence} is a
+spectral sequence with signature
+\begin{equation}
+	E^2_{p,q} \coloneqq H_p(X; D_q(\pt)) \Longrightarrow D_{p+q}(X).
+\end{equation}
+The \term{cohomological Atiyah-Hirzebruch spectral sequence} is a spectral sequence with signature
+\begin{equation}
+\label{coh_AHSS}
+	E_2^{p,q} \coloneqq H^p(X; D^q(\pt)) \Longrightarrow D^{p+q}(X).
+\end{equation}
+(Briefly recall what this means. Briefly discuss convergence, and where it can go wrong.)
+
+If $D$ is a ring spectrum, \eqref{coh_AHSS} has a multiplicative structure.
+
+\TODO: this would go in day 1, if we want to include it at all. Feel free to port it over there; if not, comment it
+out.
+\subsection*{Convergence}
+Sometimes you're reading a book and it feels like it goes on forever. It's nice when spectral sequences don't do
+that. As an example, we'll look at a \term{first-quadrant spectral sequence}, one where $E^{p,q}_2 = 0$ when $p <
+0$ or $q < 0$. In this setup, if you pick any $(p,q)$, then after finitely many pages, the differentials are so
+long that they leave the first quadrant, so you get a sequence $0\to E_{p,q}^r\to 0$, and therefore when you take
+homology, nothing changes. Thus it makes sense to say what the end of the spectral sequence is.
+\begin{defn}
+Whenever it makes sense, we'll define the \term{$E_\infty$-page} of the spectral sequence to be $E_\infty^{p,q} =
+E_{p,q}^r$ for $r\gg 0$. One says $E_r^{p,q}$ \term{converges} or \term{abuts} to $E_\infty^{p,q}$.
+\end{defn}
+Typically this is something interesting we want to calculate.
+\begin{defn}
+Let $A_\bullet$ be a graded abelian group together with an exhaustive filtration $\set{F_p}$.
+\begin{itemize}
+	\item The \term{associated graded} of the filtration $\set{F_i}$ is
+	\[(\mathit{gr} A)_{p,q}\coloneqq F_pA_{p+q}/F_{p-1}A_{p+q}.\]
+	\item A spectral sequence $E_r^{p,q}$ \term{converges (weakly)} to $A_\bullet$, written
+	\[E_r^{p,q}\Longrightarrow A_\bullet,\]
+	if it has an $E_\infty$ page and the $E_\infty$ page is the associated graded of $A_\bullet$.
+\end{itemize}
+\end{defn}
+\begin{rem}
+There is a notion of \term{conditional convergence}, due to Boardman, which essentially means ``not always weakly
+convergent, but converges under hypotheses often met in practice.'' Unfortunately, defining this precisely would be
+a huge digression.
+\end{rem}
+
+
+% 3. generalized cohomology theories
+%\subsection*{Generalized cohomology theories}
+%The Atiyah-Hirzebruch spectral sequence is used to compute things which behave like homology or cohomology, but
+%are slightly different: they satisfy all of the Eilenberg-Steenrod axioms except for the dimension axiom. These
+%generalized cohomology theories have been a huge area of focus in algebraic topology in the last half century.
+%\begin{defn}
+%A \term{generalized cohomology theory} (also \term{extraordinary cohomology theory}) is a collection of functors
+%$h^n\colon\Top_*\to\Ab$ such that:
+%\begin{itemize}
+%	\item Given a map $f\colon A\to X$, let $X/A$ denote its cofiber. There is a natural transformation
+%	$\delta\colon h^n(X/A)\to h^{n+1}(A)$ such that the following sequence is long exact:
+%	\[\xymatrix{
+%		\dotsb \ar[r] &h^n(A)\ar[r]^{h^n(f)} & h^n(X)\ar[r] & h^n(X/A)\ar[r]^\delta & h^{n+1}(A)\ar[r] &\dotsb
+%	}\]
+%	\item $h^n$ takes wedge sums to direct sums: if $X = \bigvee_i X_i$, then the natural map
+%	\[\bigoplus h^n(X_i)\longrightarrow h^n(X)\]
+%	is an isomorphism.
+%\end{itemize}
+%\end{defn}
+%The dual notion of a \term{generalized homology theory} is the same, except the differentials go in the other
+%direction. This defines a reduced homology theory, i.e.\ one for spaces with basepoints.
+
+\TODO: these are some examples of spectra. Probably I won't delve into this level of
+detail, just introduce $\KO$, $\KU$, $\ko$, $\ku$, and $\mathit{MSO}$ and say what their coefficient rings are, as
+well a little bit about what they mean. Some of this may have already been covered in Tuesday's lecture.
+\begin{exm}[$K$-theory]
+Let $X$ be a compact Hausdorff space. Then, the set of isomorphism classes of complex vector bundles on $X$ is a
+semiring, so we can take its group completion and obtain a ring $K^0(X)$.
+
+The following theorem is foundational and beautiful.
+\begin{thm}[Bott periodicity]
+$K^0(\Sigma^2 X)\cong K^0(X)$.
+\end{thm}
+This allows us to promote $K^*$ into a \term{$2$-periodic} generalized cohomology theory $K^*$, called
+\term{complex $K$-theory}, by setting $K^{2n}(X) = K^0(X)$ and $K^{2n+1}(X) = K^0(\Sigma X)$.\footnote{Extending
+from compact Hausdorff spaces to all of $\mathsf{Top}$ is possible, but then one loses the vector-bundle-theoretic
+description.}
+
+Like cohomology, $K$-theory is \term{multiplicative}, i.e.\ it spits out $\Z$-graded rings. However, $K^i(X)$ is
+often nonzero for negative $i$.
+\begin{ex}
+For example, show that as graded abelian groups, $K^*(\pt) = \Z[t,t^{-1}]$, where $\abs t = 2$.
+\end{ex}
+
+$K$-theory admits a few variants.
+\begin{itemize}
+	\item If you use real vector bundles instead of complex vector bundles, everything still works, but Bott
+	periodicity is $8$-fold periodic. Thus we obtain a periodic, multiplicative cohomology theory called \term{real
+	$K$-theory}, denoted $\KO^*(X)$. Its value on a point is encoded in the \term{Bott song}.
+	\item Sometimes it will be simpler to consider a smaller variant where we only keep the negative-degree
+	elements. This is called \term{connective $K$-theory}, and is denoted $\mathit{ku}^*$ (for complex $K$-theory)
+	or $\mathit{ko}^*$ (for real $K$-theory). These are also multiplicative. \qedhere
+\end{itemize}
+\end{exm}
+\begin{exm}[Bordism]
+Let $X$ be a space and define $\Omega_n^\O(X)$ to be the set of equivalence classes of maps of $n$-manifolds $M\to
+X$, where $[f_0\colon M\to X]\sim [f_1\colon N\to X]$ if there's a cobordism $Y\colon M\to N$ and a map $F\colon
+Y\to X$ extending $f_0$ and $f_1$. This is an abelian group under disjoint union, and the collection
+$\set{\Omega_n^\O}$ defines a generalized homology theory called \term{unoriented bordism}.\footnote{The
+corresponding cohomology theory is called \term{cobordism}.}
+
+The following theorem was the beginning of differential topology.
+\begin{thm}[Thom]
+As graded abelian groups, $\Omega_n^\O(\pt)\cong\F_2[x_2,x_4,x_5,x_6,\dotsc] = \F_2[x_i\mid i\ne 2^j-1]$. Moreover,
+$\Omega_*^\O$ is a direct sum of (suspended) ordinary cohomology theories.
+\end{thm}
+There's a lot of variations, based on whatever flavors of manifolds you consider. Using oriented manifolds produces
+\term{oriented bordism} $\Omega_*^\SO$, spin manifolds produce \term{spin bordism} $\Omega_*^\Spin$, and so forth.
+These are not direct sums of ordinary cohomology theories in general.
+\end{exm}
+
+%. 4. then: CW filtration => AHSS (homological and cohomological)
+%\subsection{The definition}
+%Recall that if $X$ is a CW complex, it has a \term{CW filtration} in which $X_n$ is the \term{$n$-skeleton}, the
+%union of all cells of dimension $\le n$. Then, $X_n/X_{n-1}$ is a wedge of $n$-spheres indexed by the $n$-cells of
+%$X$. Using this formalism we can define some spectral sequences.
+%\begin{comp}{defn}{itemize}
+%	\item Let $E_*$ be a generalized homology theory and $X$ be a CW complex. Then, the CW filtration on $X$
+%	induces a spectral sequence of homological type that strongly converges, called the \term{Atiyah-Hirzebruch
+%	spectral sequence}:
+%		\[E_{p,q}^2 = H_p(X; E_q(\pt))\Longrightarrow E_{p+q}(X).\]
+%	\item Let $E^*$ be a generalized cohomology theory and $X$ be a CW complex. Then, the CW filtration on $X$
+%	induces a spectral sequence of cohomological type that \emph{conditionally} converges, called the
+%	\term{Atiyah-Hirzebruch spectral sequence}:
+%		\[E^{p,q}_2 = H^p(X; E^q(\pt))\Longrightarrow E^{p+q}(X).\]
+%\end{comp}
+
+
+
+% then: calculations
+% TODO add spheres
+
+\begin{exm}
+% \term{Complex $K$-theory}, denoted $K^*$ or $\KU^*$, is the generalized cohomology theory such that if $X$ is a
+% compact Hausdorff space, $K^0(X)$ is the Grothendieck group of complex vector bundles on $X$. The axioms of a
+% generalized cohomology theory mean that we want $K^*(X) \cong K^{*+1}(\Sigma X)$, and a computation called
+% \term{Bott periodicity} shows that $K^0(\Sigma^2 X)\cong K^0(X)$; putting these together, we obtain a
+% \term{$2$-periodic cohomology theory}: $K^{i+2}(X)\cong K^i(X)$ for all $i$. In particular, $K^i(X)$ may be zero
+% for negative $i$.
+% 
+% The coefficients are
+% \[K^i(\pt) = \begin{cases}
+% 	\Z, &i\text{ even}\\
+% 	0, &i\text{ odd.}
+% \end{cases}\]
+We'll use the Atiyah-Hirzebruch spectral sequence to compute $K^*(\CP^n)$. Recall that
+\[H^p(\CP^k;A) = \begin{cases}
+	A, &p\text{ even}\\
+	0, &\text{ odd.}
+\end{cases}\]
+Hence
+\[E_2^{p,q} = \begin{cases}
+	\Z, & p,q\text{ even, } 0\le p\le 2k\\
+	0, &\text{otherwise.}
+\end{cases}\]
+Thus all the differentials are zero! So $E_2^{p,q} \cong E_\infty^{p,q}$. Hence the $E_\infty$ page has no torsion,
+and therefore $K^*(\CP^n)$ is isomorphic to its associated graded. % ?
+\[K^i(\CP^n) = \begin{cases}
+	\Z^{n+1}, &i\text{ even}\\
+	0, &\text{otherwise.}
+\end{cases}\qedhere\]
+
+\TODO: more examples.
+
+\TODO: define $k$-invariants, introduce Steenrod squares, and state what the first differential in the AHSS is.
+Use this in examples to compute $\ku^*$ and $\ko^*$ of simple things.
+
+%\begin{ex}
+%Let $\Sigma$ be a genus-$g$ orientable closed surface. Compute $K^*(\Sigma_g)$.
+%\end{ex}
+%
+%
+%\begin{ex}
+%What changes when you replace $K^*$ with $\KO^*$?
+%\end{ex}
+
+
+
+\end{exm}
