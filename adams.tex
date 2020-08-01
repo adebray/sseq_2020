@@ -1,0 +1,104 @@
+The Adams spectral sequence is an important tool in homotopy theory. It converges to the stable homotopy groups of
+the spheres (well, the most commonly studied variation), and so by conservation of effort, running the spectral
+sequence must be very hard. Indeed,
+\begin{itemize}
+	\item determining the $E_2$-page is complicated, but is purely algebraic so can be aided with computer
+	calculations, and
+	\item determining the differentials is art and/or dark magic!
+\end{itemize}
+Though we understand a great deal of the structure of the Adams spectral sequence, including vanishing slopes and
+infinite families of elements that survive to the $E_\infty$-page, Mahowald's uncertainty principle (not a real
+theorem, at least not yet) states that any single method to determine Adams differentials must leave infinitely
+many unresolved. Again, this is not a theorem, just an observation made after years of experience.
+
+All this posturing aside, what does the Adams spectral sequence look like? Well, fix a prime $p$ and two spectra
+$X$ and $Y$. Then the Adams spectral sequence has signature
+\begin{equation}
+\label{Adams_sig}
+	E_2^{s,t} = \Ext_{\cA_p}^{s,t}(H^*(X;\F_p), H^*(Y; \F_p)) \Longrightarrow [Y, X]_p^\wedge.
+\end{equation}
+That is, it begins with Ext over the mod $p$ Steenrod algebra $\cA_p$, and converges to the $p$-completion of the
+abelian group of homotopy classes of maps $Y\to X$. \TODO: convergence. Often, one takes $Y = \Sph$, so that this
+calculates the $p$-completed homotopy groups of $X$. Most research has been done for the case $X = \Sph$; in this
+case $p = 2$ is the hardest and most-studied; we understand the spectral sequence entirely up to about degree $t -
+s = 63$, and blearily up to about degree $90$. (\TODO: many names go here.)
+\begin{rem}
+There are variants of the Adams spectral sequence where you begin with a spectrum $E$ and feed it the
+$E$-cohomology of $X$ and $Y$, and work over the algebra of stable $E$-cohomology operations. Our case corresponded
+to $E = H\F_p$. The case $E = \mathit{BP}$ is also common, in which case this is called the \term{Adams-Novikov
+spectral sequence}; one also sees $E = \ko$. The $E_2$-page is not as nice as~\eqref{Adams_sig} in general, though.
+
+Amusingly, you can take $E = H\Q$, and as soon as you know that the algebra of stable $\Q$-cohomology operations is
+just $\Q$ in degree $0$, the $H\Q$-based Adams spectral sequence collapses, recovering a fact you may already know:
+rational stable homotopy is rational stable homology.
+\end{rem}
+Remember the mod $2$ Steenrod algebra from Wednesday? It's neither finitely generated nor commutative, which is to
+say it's a massive headache. So in our class today, focused as we are on getting our hands dirty, we will work with
+a special case of the Adams spectral sequence which is simple enough to actually teach in a day, yet complicated
+enough to both feature the structures and ideas present in a more general Adams spectral sequence calculation, and
+also something that's actually interesting and useful to calculate.
+
+(Change-of-rings theorem here \TODO)
+
+The most common reason to invoke this is Stong's calculation that
+\begin{equation}
+	H^*(\ko;\F_2) \cong \cA\otimes_{\cA(1)} \F_2,
+\end{equation}
+where $\cA(1) \coloneqq \ang{\Sq^1, \Sq^2}$. So if you want to know the $2$-primary $\ko$-theory of something, the
+change-of-rings theorem and Künneth formula together imply the Adams spectral sequence for $\ko\wedge X$ has
+signature
+\begin{equation}
+	E_2^{s,t} = \Ext_\cA^{s,t}(\cA\otimes_{\cA(1)} H^*(X;\F_2), \F_2) \cong \Ext_{\cA(1)}^{s,t}(H^*(X,\F_2), \F_2).
+\end{equation}
+This is good, because $\cA(1)$ is \emph{much} smaller than $\cA$: it's eight-dimensional over $\F_2$. In practice,
+running the Adams spectral sequence is often (if not always) completely tractable in these cases: determining Ext,
+resolving differentials, and resolving extensions. Our goal today is to teach you how to do this --- not to
+develop everything by hand, but to build on what's already written down to use this as a tool to solve whatever
+probelms you might have in practice.
+\begin{rem}
+For the bordism-minded in the audience, at the prime $2$, $\MTSpin$ splits as a sum of various connective covers of
+$\ko$ and $H\F_2$s; each of these pieces can be tackled with this change-of-rings trick. Shearing arguments
+generalize this to related kinds of bordism, e.g. \spinc, \pinp, or \pinm bordism, and so these kinds of bordism of
+bounded-below spectra can be fed relatively routinely to this method of calculation. It is ultimately for this
+reason that you sometimes see Adams spectral sequence calculations in physics!
+\end{rem}
+There are several references for this stuff, and I recommend Beaudry and Campbell's paper ``A guide for computing
+stable homotopy groups,'' which develops the theory from relatively few assumptions, and includes several example
+calculations.
+
+\subsection{Drawing $\cA(1)$-modules}
+
+
+
+\subsection{Determining Ext}
+% and also the H^*,*(A(1))-module structure/the Yoneda product!
+
+
+% maybe I should use the example of D_{2n} that I like to use; maybe I should use S_4 because no Thom spectra
+% floating around
+\subsection{Running the spectral sequence: differentials}
+% what do the differentials look like?
+
+% linearity
+
+% Margolis' theorem
+
+
+% other tricks
+
+
+\subsection{Extension questions}
+% using h0-linearity
+
+% using Margolis' theorem
+
+
+% 2\eta = 0
+
+% other tricks
+
+
+
+\begin{rem}[Variants]
+% tmf, ku, BP<2>/tmf_1(3)?
+\end{rem}
