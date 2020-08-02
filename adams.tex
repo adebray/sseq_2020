@@ -18,8 +18,8 @@ $X$ and $Y$. Then the Adams spectral sequence has signature
 	E_2^{s,t} = \Ext_{\cA_p}^{s,t}(H^*(X;\F_p), H^*(Y; \F_p)) \Longrightarrow [Y, X]_p^\wedge.
 \end{equation}
 That is, it begins with Ext over the mod $p$ Steenrod algebra $\cA_p$, and converges to the $p$-completion of the
-abelian group of homotopy classes of maps $Y\to X$. \TODO: convergence. Often, one takes $Y = \Sph$, so that this
-calculates the $p$-completed homotopy groups of $X$. Most research has been done for the case $X = \Sph$; in this
+abelian group of homotopy classes of maps $Y\to X$. \TODO: convergence. Often, one takes $Y = \S$, so that this
+calculates the $p$-completed homotopy groups of $X$. Most research has been done for the case $X = \S$; in this
 case $p = 2$ is the hardest and most-studied; we understand the spectral sequence entirely up to about degree $t -
 s = 63$, and blearily up to about degree $90$. (\TODO: many names go here.)
 \begin{rem}
@@ -56,11 +56,12 @@ resolving differentials, and resolving extensions. Our goal today is to teach yo
 develop everything by hand, but to build on what's already written down to use this as a tool to solve whatever
 probelms you might have in practice.
 \begin{rem}
-For the bordism-minded in the audience, at the prime $2$, $\MTSpin$ splits as a sum of various connective covers of
+For the bordism-minded in the audience, at the prime $2$, $\MSpin$ splits as a sum of various connective covers of
 $\ko$ and $H\F_2$s; each of these pieces can be tackled with this change-of-rings trick. Shearing arguments
-generalize this to related kinds of bordism, e.g. \spinc, \pinp, or \pinm bordism, and so these kinds of bordism of
-bounded-below spectra can be fed relatively routinely to this method of calculation. It is ultimately for this
-reason that you sometimes see Adams spectral sequence calculations in physics!
+generalize this to related kinds of bordism, e.g. spin\textsuperscript{$c$}, pin\textsuperscript{$+$}, or
+pin\textsuperscript{$-$} bordism, and so these kinds of bordism of bounded-below spectra can be fed relatively
+routinely to this method of calculation. It is ultimately for this reason that you sometimes see Adams spectral
+sequence calculations in physics!
 \end{rem}
 There are several references for this stuff, and I recommend Beaudry and Campbell's paper ``A guide for computing
 stable homotopy groups,'' which develops the theory from relatively few assumptions, and includes several example
@@ -72,32 +73,172 @@ calculations.
 
 \subsection{Determining Ext}
 % and also the H^*,*(A(1))-module structure/the Yoneda product!
+Let $M$ be an $\cA(1)$-module that we care about. There are many ways to compute $\Ext(M)$.
+\begin{enumerate}
+	\item\label{look_it_up} Use someone else's preexisting computation (yes, really!).
+	\item\label{min_res} Write down a minimal resolution of $M$.
+	\item\label{SES_LES} Put $M$ into a short exact sequence of $\cA(1)$-modules and use the induced long exact
+	sequence in Ext.
+	\item\label{kernel_method} Notice that $M$ looks a lot like another $\cA(1)$-module whose Ext you already know.
+	\item\label{apply_CoR} Clever applications of the change-of-rings formula.
+\end{enumerate}
+But before that, I'd like to discuss a little more structure that $\Ext(M)$ has: it is a module over the algebra
+$H^{*,*}(\cA(1))\coloneqq \Ext(\F_2)$.
 
+By definition, Ext is the derived functor of Hom, but elements of Ext can be concretely represented by extensions
+of $\cA(1)$-modules. For $s > 0$, as a set, $\Ext^{s,t}(M, N)$ is the equivalence classes of long exact sequences
+\begin{equation}
+	\xymatrix{0\ar[r] & \Sigma^t N\ar[r] & P_s\ar[r] & P_{s-1}\ar[r] & \dots\ar[r] & P_1\ar[r] & M\ar[r] & 0,}
+\end{equation}
+where two such sequences are equivalent if there are maps between all these modules such that the maps on $M$ and
+$N$ are the identity, and that the relevant big ol' diagram commutes. This has an abelian group structure using
+something called \term{Baer sum}, but since $2 = 0$ it doesn't come up in practice much.
+
+What \emph{does} come up is the \term{Yoneda product}. Given an extension $0\to \Sigma^tL\to\dotsb \to M\to 0$ of
+length $s$ and an extension $0\to \Sigma^{t'}M\to \dotsb\to N\to 0$ of length $s'$, you can compose them to an
+extension
+\begin{equation}
+	\xymatrix{
+		0\ar[r] & \Sigma^{t+t'}L\ar[r] & \dotsb\ar[r] & \Sigma^t P'_{s'}\ar[dr]\ar[rr] && \dotsb P_1\ar[r] &
+		\dotsb\ar[r] & N\\
+		&&&& \Sigma^t M
+	}
+\end{equation}
+and this defines a product
+\begin{equation}
+	\Ext_{\cA(1)}^{s,t}(L, M)\otimes \Ext_{\cA(1)}^{s',t'}(M, N)\longrightarrow \Ext_{\cA(1)}^{s+s', t+t'}(L, N).
+\end{equation}
+called the Yoneda product. When $L = M = N = \F_2$, this makes $\Ext_{\cA(1)}^{*,*}(\F_2, \F_2)$ into a bigraded
+algebra, which is denoted $H^{*,*}(\cA(1))$, and in general this naturally makes $\Ext_{\cA(1)}^{*,*}(M, \F_2)$
+into an $H^{*,*}(\cA(1))$-module. This structure is very useful in Adams spectral sequence calculations (and this
+is true no matter whether you work over $\cA(1)$ or $\cA$ or any other subalgebra).
+
+\begin{rem}[s = 0]
+By general derived functor machinery, $\Ext^{0,t}(M, N) = \Hom(M, \Sigma^t N)$. The Yoneda product is \TODO.
+\end{rem}
+
+Let's dig into this algebra and module structure a bit. One can calculate that
+\begin{equation}
+	H^{*,*}(\cA(1)) \cong\F_2[h_0, h_1, v, w]/(h_0h_1, h_1^3, h_1v, v^2 = h_0^2w)
+\end{equation}
+with $\abs{h_0} = (1, 1)$, $\abs{h_1} = (1, 2)$, $\abs{v} = (3, 7)$, and $\abs w = (4, 12)$. This description,
+though complete, lacks a certain --- you know, what does this \emph{look} like?
+
+As this is the $E_2$-page of a spectral sequence (converging to the $\ko$-homology of a point), let's draw it like
+one! One important point is that the Adams spectral sequence grading is $(t-s, s)$, so, e.g.\ $h_0$ will be in
+bidegree $(0, 1)$, $h_1$ will be in bidegree $(1, 1)$, etc. Anyways, what you get is
+\begin{sseqdata}[name=Extalgebra, classes=fill, scale=0.5, xrange={0}{10}, yrange={0}{6}]
+\class(0, 0)\AdamsTower{}
+\class(1, 1)\structline(0, 0)(1, 1)
+\class(2, 2)\structline
+
+\class(4, 3)\AdamsTower{}
+
+\class(8, 4)\AdamsTower{}
+\class(9, 5)\structline(8, 4)(9, 5)
+\class(10, 6)\structline
+\end{sseqdata}
+\begin{equation}
+\begin{gathered}
+	\printpage[name=Extalgebra, page=2]
+\end{gathered}
+\end{equation}
+\TODO: label $h_0$, $h_1$, $v$, and $w$.
+
+In general, given an $\cA(1)$-module $M$, when drawing $\Ext_{\cA(1)}(M, \F_2)$, we will draw in the
+$H^{*,*}(\cA(1))$-action as follows: $h_0$ by vertical lines, $h_1$ by diagonal lines. We won't draw the effects of
+the remaining generators, but they're occasionally helpful to keep in mind.
+\begin{rem}
+If you said, a single dot corresponds to a $\F_2$ summand, maybe an infinite tower corresponds to a $\Z$ somehow,
+then reading along the $x$-axis you get $\Z$, $\Z/2$, $\Z/2$, $0$, $\Z$, $0$, $0$, $0$ repeating. If this sounds
+familiar, this is not a coincidence. We'll get there in a sec.
+\end{rem}
+Now, here are some examples of commonly arising $\cA(1)$-modules and their Exts. These and others you can find fit
+into the ``look it up'' technique.
+\begin{exm}
+Of course, $\Ext_{\cA(1)}(\Sigma^t\cA(1), \F_2)\cong \Sigma^t\F_2$: a single dot in the Ext chart.
+\end{exm}
+\begin{exm}
+The $\cA(1)$-module $\Sigma^{-2}\widetilde H^*(\CP^2)$, consisting of two points joined by a $\Sq^2$, is often
+denoted $C\eta$\dots
+\end{exm}
+\begin{exm}
+The joker $J$\dots
+\end{exm}
+\begin{exm}
+The upside-down question mark (sometimes called the Spanish question mark) (\TODO: symbol)\dots
+\end{exm}
+\begin{exm}
+This thing called $M_\infty$\dots, useful for studying $H^*(\RP^\infty)$ and its variants (stunted projective
+spaces).
+\end{exm}
+
+Another way to compute Ext is using a minimal resolution.
+\TODO: definition. Ideally add an example, but don't dwell on it during the lecture.
+
+
+Another way to compute Ext is to use the fact that a short exact sequence of $\cA(1)$-modules induces a long exact
+sequence in Ext. \TODO: example computing Ext of upside-down question mark (or, since active learning, let's use
+the ordinary question mark?). This is the most flexible way to compute Ext in practice; specific other methods work
+better on specific modules, but the LES is quite general. (\TODO: many more examples for the interested reader can
+be found\dots)
+
+Note: I'll leave this in the notes but not discuss it in the lecture, for time reasons.
+\begin{exm}[Use a preexisting minimal resolution]
+Modules which look similar should have similar Exts. Here's a concrete implementation of this, for the augmentation
+ideal $I\coloneqq \textcolor{Green}{\Sigma^{-1}}\ker(\cA(1)\to\F_2)$. This is the remainder of the first step of
+the minimal resolution $P^2\to P^1\to P^0\to\F_1$, so it has a minimal resolution beginning $P^2\to P^1\to I$. This
+implies an $H^{*,*}(\cA(1))$-equivariant identification
+\begin{equation}
+	\Ext_{\cA(1)}^{s, t}(I, \F_2) \cong\Ext_{\cA(1)}^{s+1, \textcolor{Green}{t+1}}(\F_2, \F_2).
+\end{equation}
+There'll be a few exercises using similar tricks, but this isn't as crucial of a method to know.
+\end{exm}
+Again, this is appearing in the notes but will be skated over at best in the lecture.
+\begin{exm}
+Using the change-of-rings formula to compute the Ext of $C\eta$ very quickly. Again, elegant but not as flexible.
+\end{exm}
 
 % maybe I should use the example of D_{2n} that I like to use; maybe I should use S_4 because no Thom spectra
 % floating around
 \subsection{Running the spectral sequence: differentials}
 % what do the differentials look like?
-
-% linearity
-
-% Margolis' theorem
-
-
-% other tricks
-
+In the Adams grading, a $d_r$ differential moves one unit to the left and $r$ units upward. Typically, Adams
+differentials are difficult, but we can take advantage of some structure.
+\begin{enumerate}
+	\item Differentials commute with the $H^{*,*}(\cA(1))$-action. This allows you to compute one differential and
+	then move it up an $h_0$-tower, for example. Another crucial use is to infer that if $h_ix = 0$ but $h_iy\ne
+	0$, then $d_r(x)\ne y$ for any $r$. For example, this method shows that all differentials in the Adams spectral
+	sequence for $\ko$ (i.e., using $\Ext_{\cA(1)}(\F_2)$) vanish!
+	\item There is a very useful theorem of Margolis which says that $\cA$-module summands in the $\F_2$-cohomology
+	of a spectrum $X$ correspond precisely to summands of $H\F_2$ splitting off of $X$. The upshot is that in the
+	$E_2$-page of the Adams spectral sequence for $\ko\wedge Y$, anything coming from an $\cA(1)$ summand in
+	$H^*(Y;\F_2)$ neither admits nor receives nonzero differentials. These two methods are pretty powerful when
+	used together.
+	\item After this, one has to be crafty, and the standard tricks appear: use functoriality of the Adams spectral
+	sequence to force differentials to vanish (or to not vanish); compute part of the answer using another spectral
+	sequence, such as Atiyah-Hirzebruch, and use this to infer what differentials must vanish. There are ways to
+	use Massey products and Toda brackets to infer differentials, but this is not something I understand; sorry
+	about that.
+\end{enumerate}
 
 \subsection{Extension questions}
-% using h0-linearity
+So you've finished running your Adams spectral sequence calculations and arrived at the $E_\infty$-page. How do you
+address extensions? Here are the ways.
+\begin{enumerate}
+	\item The $H^{*,*}(\cA(1))$-action on the $E_\infty$-page lifts to the $\ko_*$-action on $\ko_*(X)$! To be
+	precise, $h_0$ lifts to multiplication by $2$, $h_1$ lifts to the action by $\eta\in\ko_1$, and $w$ lifts to
+	action by the periodicity element. This is the crucial first step to solving extension problems. For example,
+	an infinite tower linked by $h_0$s lifts to the $2$-adics (which came from $\Z$ if your spectrum, before
+	$2$-completion, was finite). If there are $k$ dots linked by $h_0$s, you've found a $\Z/2^k$.
 
-% using Margolis' theorem
-
-
-% 2\eta = 0
-
-% other tricks
-
-
+	The converse is not true: there can be ``hidden extensions'' not visible to the $H^{*,*}(\cA(1))$-action.
+	\item Margolis' theorem, the sequel: since your summands coming from $\cA(1)$s split off of $\ko\wedge X$, they
+	cannot participate in hidden extensions.
+	\item There are a few other tricks. One common one is that the relation $h_0h_1 = 0$ lifts to $2\eta = 0$. That
+	means that in $\ko_*(X)$, if $x = 2y$, then $\eta x = 0$. Duh, you say, but this is useful for ruling out some
+	hidden extensions. Mapping to/from other spectral sequences is also useful sometimes.
+\end{enumerate}
 
 \begin{rem}[Variants]
 % tmf, ku, BP<2>/tmf_1(3)?

@@ -23,6 +23,15 @@
 \usepackage[capitalize, noabbrev]{cleveref}
 
 % TODO: tikz and Adams macros, and spectralsequences
+\usepackage{spectralsequences}
+\usepackage{adamsmacros}
+
+\newcommand{\AdamsTower}{
+	\DoUntilOutOfBounds{
+		\class(\lastx, \lasty+1)
+		\structline
+	}
+}
 
 % Forces all XY entries to be typeset with displaymath
 \everyentry={\displaystyle}
@@ -98,7 +107,7 @@
 
 % mathit -- some cohomology theories
 \def\do#1{\csdef{#1}{\mathit{#1}}}
-\docsvlist{KO,ko,KU,ku,TMF,Tmf,tmf,BP}
+\docsvlist{KO,ko,KU,ku,TMF,Tmf,tmf,BP,MSpin}
 
 \setcounter{tocdepth}{1}
 \numberwithin{equation}{section}
