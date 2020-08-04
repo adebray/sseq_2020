@@ -1,0 +1,16 @@
+# purpose of this document is to contain scratch work for exercises that might be cool
+
+Serre: compute the mod 2 cohomology of the Wu manifold W := SU(3)/SO(3).
+	...challenge version: compute the Stiefel-Whitney classes of W. (Answer: w2 and w3 are nontrivial).
+	How do you do this? Well, see this absolutely wild math.SX answer:
+	https://math.stackexchange.com/questions/581401/computing-characteristic-numbers-of-homogeneous-spaces.
+	Point is: determine maximal elementary abelian 2-groups inside SO(3) and SU(3), then use this and maps between
+	Serre SSes to figure out SW classes. Maybe this is a good Day 4 problem (using functoriality of spectral
+	sequences).
+
+Adams over A(1): up to dim 7, what are the reduced spin bordism groups of the Wu manifold?
+	1. determine Steenrod operations using prev calc of SW classes + Wu formula (remind people of Wu formula)
+	2. hey, that's the question mark! cool. (incidentally, this gives a really easy realization of the qn mark
+	   complex). So determine its Ext somehow, probably an LES.
+
+	also a good example if people care about ku-theory or spinc bordism.
