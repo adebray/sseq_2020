@@ -14,3 +14,22 @@ Adams over A(1): up to dim 7, what are the reduced spin bordism groups of the Wu
 	   complex). So determine its Ext somehow, probably an LES.
 
 	also a good example if people care about ku-theory or spinc bordism.
+
+Adams over A(1): let T be the Thom space of the virtual bundle (2taut - 2) -> RP^\infty. Exhibit a 2-local
+isomorphism ko smash T -> \bigoplus_{i=0}^\infty \Sigma^{4i} HZ.
+(answer: see http://www.rrb.wayne.edu/papers/osac2.pdf. Studying this with the Adams spectral sequence, we get
+h0-towers in nonnegative degrees 0 mod 4, so the groups match. The actual map comes by picking coh classes in those
+degrees)
+
+Adams over A(1): have we developed enough to prove anything like Wood's thm ko smash Ceta = ku?
+
+Day 4: just an idea, but can we compute the K-groups of lens spaces as follows?
+	1. run the Serre SS for S^1 -> L(k, n) -> CP^n. Using what we already know geometrically, infer some
+	   differentials.
+	2. Consider the map on Leray-Serre-Atiyah-Hirzebruch spectral sequences induced by KU -> HZ (which we
+	   presumably know on S^1 and CP^\infty?) to infer that differential back to the lens space?
+	Haven't thought through whether this will work well. Would be crucial to use reduced K-theory of S^1 to make
+	this simpler (does that work??)
+	Update: this works for ku, because we have a map ku -> HZ, but idk about KU. Still a good example: you use the
+	map of LSAH SSeqs to get d2, and thenit collapses on E3. The only question left is whether the multiplicative
+	structure resolves all extension problems, and I think this is a bit too nice to be true.
